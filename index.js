@@ -81,8 +81,10 @@ app.get("/health", (_req, res) => {
   res.json({ ok: true, connected: isReady, ts: Date.now() });
 });
 
-// Página do QR Code (abre no navegador para escanear)
+// Página do QR Code (embutida no admin via iframe)
 app.get("/qr", (_req, res) => {
+  res.setHeader("X-Frame-Options", "ALLOWALL");
+  res.setHeader("Content-Security-Policy", "frame-ancestors *");
   if (isReady) {
     return res.send(`<!DOCTYPE html>
 <html>
